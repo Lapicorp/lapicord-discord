@@ -1,0 +1,8 @@
+version: '3.6'
+
+services:
+  lapicord-discord:
+    image: emilydelorme/lapicord-discord:alpine
+    environment:
+      - DISCORD_TOKEN=xxxx
+    restart: always
