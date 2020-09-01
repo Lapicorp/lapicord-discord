@@ -12,14 +12,14 @@ module.exports = {
   async execute(message, args) {
     logger.info(`Add role to all users for roleID ${args[0]}`);
 
-    if(args[0] ==null) {
-        message.reply("You need to give the role id as parameters");
+    if(args.size <= 0) {
+        message.reply("You need to give at least one role id as parameters");
         return;
     }
     
     message.guild.members.fetch().then(fetchedMembers => {
-      fetchedMembers.forEach(member => member.roles.add(args[0]));
-      message.reply(`Added role ${args[0]} for ${fetchedMembers.size} members`);
+        fetchedMembers.forEach(member => args.forEach(roleID => member.roles.add(roleID)));
+      message.reply(`Added role ${args} for ${fetchedMembers.size} members`);
     });
   },
 };
