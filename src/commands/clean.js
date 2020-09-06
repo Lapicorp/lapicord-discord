@@ -18,8 +18,17 @@ module.exports = {
   }
 
     message.guild.members.fetch().then(fetchedMembers => {
-      fetchedMembers.forEach(member => args.forEach(roleID => member.roles.remove(roleID)));
-      message.reply(`Removed role ${args} for ${fetchedMembers.size} members`);
+      var removedRolesCount = 0;
+      fetchedMembers.forEach(member => args.forEach(roleID => {
+        if(member.roles.cache.has(roleID)) {
+          removedRolesCount += 1;
+          member.roles.remove(roleID);
+        }
+      }));
+      var roles = _.reduce(args, function(sum, n) {
+        return sum + `<@&${n}> `;
+      },"");
+      message.reply(`Removed role ${roles}for ${removedRolesCount} members`);
     });
   },
 };
